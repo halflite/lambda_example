@@ -6,14 +6,15 @@
   <artifactId>sqslambda</artifactId>
   <version>1.0-SNAPSHOT</version>
   <properties>
-    <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-    <surefire-plugin.version>2.22.0</surefire-plugin.version>
-    <maven.compiler.parameters>true</maven.compiler.parameters>
     <quarkus.version>1.1.0.Final</quarkus.version>
+    <aws.version>1.11.699</aws.version>
+    <surefire-plugin.version>2.22.0</surefire-plugin.version>
     <compiler-plugin.version>3.8.1</compiler-plugin.version>
-    <maven.compiler.source>1.8</maven.compiler.source>
+    <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     <maven.compiler.target>1.8</maven.compiler.target>
+    <maven.compiler.source>1.8</maven.compiler.source>
+    <maven.compiler.parameters>true</maven.compiler.parameters>
   </properties>
   <dependencyManagement>
     <dependencies>
@@ -21,6 +22,13 @@
         <groupId>io.quarkus</groupId>
         <artifactId>quarkus-bom</artifactId>
         <version>${quarkus.version}</version>
+        <type>pom</type>
+        <scope>import</scope>
+      </dependency>
+      <dependency>
+        <groupId>com.amazonaws</groupId>
+        <artifactId>aws-java-sdk-bom</artifactId>
+        <version>${aws.version}</version>
         <type>pom</type>
         <scope>import</scope>
       </dependency>
@@ -60,6 +68,30 @@
           <systemProperties>
             <java.util.logging.manager>org.jboss.logmanager.LogManager</java.util.logging.manager>
           </systemProperties>
+        </configuration>
+      </plugin>
+      <!-- Eclipse -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-eclipse-plugin</artifactId>
+        <version>2.10</version>
+        <configuration>
+          <downloadSources>true</downloadSources>
+          <downloadJavadocs>true</downloadJavadocs>
+          <additionalConfig>
+            <file>
+              <name>.settings/org.eclipse.core.resources.prefs</name>
+              <content>
+<![CDATA[eclipse.preferences.version=1${line.separator}encoding/<project>=${project.build.sourceEncoding}${line.separator}]]>
+              </content>
+            </file>
+            <file>
+              <name>.settings/org.eclipse.core.runtime.prefs</name>
+              <content>
+<![CDATA[eclipse.preferences.version=1${line.separator}line.separator=\n${line.separator}]]>
+              </content>
+            </file>
+          </additionalConfig>
         </configuration>
       </plugin>
     </plugins>
